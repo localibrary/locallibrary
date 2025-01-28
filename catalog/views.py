@@ -3,7 +3,8 @@ from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render
 from django.views import generic, View
 from django.contrib.auth.mixins import LoginRequiredMixin
-
+from django.views.generic import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
 from .forms import RenewBookForm
 # Create your views here.
 from .models import Book, Author, BookInstance
@@ -94,3 +95,16 @@ class LoanedBooksByUserListView(LoginRequiredMixin,generic.ListView):
 
     def get_queryset(self):
         return BookInstance.objects.filter(borrower=self.request.user).filter(status__exact='o').order_by('due_back')
+
+class AuthorCreate(CreateView):
+    model = Author
+    fields = '__all__'
+    initial = {'date_of_death':'12/10/2016',}
+
+class AuthorUpdate(UpdateView):
+    model = Author
+    fields = ['first_name','last_name','date_of_birth','date_of_death']
+
+class AuthorDelete(DeleteView):
+    model = Author
+    success_url = reverse_lazy('authors')
