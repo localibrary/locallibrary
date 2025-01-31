@@ -1,3 +1,5 @@
+from unittest import TestCase
+
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.decorators import permission_required
 from django.shortcuts import render
@@ -108,3 +110,20 @@ class AuthorUpdate(UpdateView):
 class AuthorDelete(DeleteView):
     model = Author
     success_url = reverse_lazy('authors')
+
+class AuthorListView(generic.ListView):
+    model= Author
+    paginate_by = 10
+
+class YourTestClass(TestCase):
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_something_that_will_pass(self):
+        self.assertFalse(False)
+
+    def test_something_that_will_fail(self):
+        self.assertTrue(False)
